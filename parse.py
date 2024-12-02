@@ -121,10 +121,12 @@ def parse_time(sentence):
 
 def parse_steps(json_data, ingredient_names):
     steps = []
+    raw_steps = []
     instructions = json_data.get("recipeInstructions", [])
     step_counter = 1
     for step in instructions:
         text = step.get("text", "").strip()
+        raw_steps.append(text)
         # split sentences using regex and spacy
         doc = nlp(text)
         sentences = []
@@ -156,14 +158,14 @@ def parse_steps(json_data, ingredient_names):
             step_obj = Step(step_number=step_counter, text=sub_text, ingredients=ingredients, tools=tools, methods=methods, time=time)
             steps.append(step_obj)
             step_counter += 1
-    return steps
+    return raw_steps, steps
 
 def parse_recipe(json_data):
     title = json_data.get("name", "Unknown Title")
     raw_ingredients, ingredients = parse_ingredients(json_data)
     ingredient_names = [ing.name for ing in ingredients]
-    steps = parse_steps(json_data, ingredient_names)
-    return Recipe(title=title, raw_ingredients= raw_ingredients, ingredients=ingredients, steps=steps)
+    raw_steps, steps = parse_steps(json_data, ingredient_names)
+    return Recipe(title=title, raw_ingredients=raw_ingredients, ingredients=ingredients, raw_steps=raw_steps, steps=steps)
 
 def recipe_to_json(recipe):
     recipe_dict = {
@@ -183,6 +185,9 @@ def recipe_to_json(recipe):
         ],
         "tools": list(set({tool for step in recipe.steps for tool in step.tools})),
         "methods": list(set({method for step in recipe.steps for method in step.methods})),
+        "raw_steps": [
+            step for step in recipe.raw_steps
+        ],
         "steps": [
             {
                 "step_number": step.step_number,
@@ -199,33 +204,3 @@ def recipe_to_json(recipe):
         ]
     }
     return recipe_dict
-
-
-'''
-# test
-link = "https://www.allrecipes.com/recipe/218091/classic-and-simple-meat-lasagna/"
-soup = fetch_recipe(link)
-recipe_data = extract_json_ld(soup)
-if recipe_data:
-    recipe = parse_recipe(recipe_data)
-    # title
-    print(f"Title: {recipe.title}")
-    # raw ingredients
-    print("\nRaw Ingredients:")
-    for ingredient in recipe.raw_ingredients:
-        print(f"- {ingredient}")
-    # ingredients
-    print("\nIngredients:")
-    for ingredient in recipe.ingredients:
-        print(f"- {ingredient.name} (Quantity: {ingredient.quantity}, Measurement: {ingredient.measurement}, Descriptor: {ingredient.descriptor}, Preparation: {ingredient.preparation})")
-    # steps
-    print("\nSteps:")
-    for step in recipe.steps:
-        print(f"Step {step.step_number}: {step.text} (Ingredients: {step.ingredients}, Tools: {step.tools}, Methods: {step.methods}, Time: {step.time})")
-    recipe_json = recipe_to_json(recipe)
-    # write to example.json (already did)
-    # with open('example.json', 'w', encoding='utf-8') as f:
-        # json.dump(recipe_json, f, ensure_ascii=False, indent=2)
-else:
-    print("No recipe data found in the JSON-LD.")
-'''

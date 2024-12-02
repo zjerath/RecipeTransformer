@@ -27,8 +27,9 @@ class Step:
         self.time = time
 
 class Recipe:
-    def __init__(self, title, raw_ingredients, ingredients, steps):
+    def __init__(self, title, raw_ingredients, ingredients, raw_steps, steps):
         self.title = title
         self.raw_ingredients = raw_ingredients
         self.ingredients = ingredients
+        self.raw_steps = raw_steps
         self.steps = steps
