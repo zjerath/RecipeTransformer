@@ -1,6 +1,6 @@
 import re
+from transformation import transform
 from parse import fetch_recipe, extract_json_ld, parse_recipe, recipe_to_json
-from transformation import transform, to_from_veg, to_from_healthy, style_cuisine, double_or_half
 
 def is_valid_allrecipes_url(url):
     """Validate if the URL is from allrecipes.com"""
@@ -25,16 +25,22 @@ def main():
         recipe = parse_recipe(json_data)
         jsn = recipe_to_json(recipe)
         # ask for transformation
-        transformation = input(f"How would you like to transform the recipe for {recipe.title}?")
+        transformation = input(f"How would you like to transform the recipe for {recipe.title}? ")
         # transform
-        transformed = transform(transformation, jsn) # using parsed json format for now
+        transformed = transform(transformation, jsn) # using parsed json format
         with open("output.txt", "w") as file:
             file.write(f"Transformation: {transformation}\n")
             file.write("\nInput Recipe:\n")
-            file.write(recipe.raw_ingredients)
-            file.write(recipe.raw_steps)
+            file.write("\nIngredients:\n")
+            file.write("\n".join(recipe.raw_ingredients) + "\n")
+            file.write("\nSteps:\n")
+            for num, step in enumerate(recipe.raw_steps, start=1):
+                file.write(f"{num}. {step}\n")
             file.write("\n\nTransformed Recipe:\n")
-            file.write(transformed)
+            file.write("\nIngredients:\n")
+            # write transformed ingredients here
+            file.write("\nSteps:\n")
+            # write transformed steps here
         print("Transformation saved to output.txt.")
     except Exception as e:
         print(f"An error occurred: {e}")
