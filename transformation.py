@@ -1,9 +1,13 @@
 # parse user input to get transformation
 def transform(transformation, jsn):
-    if 'vegetarian' in transformation:
-        return to_from_veg(jsn)
-    elif 'healthy' in transformation:
-        return to_from_healthy(jsn)
+    if 'to vegetarian' in transformation:
+        return to_veg(jsn)
+    elif 'from vegetarian' in transformation:
+        return from_veg(jsn)
+    elif 'to healthy' in transformation:
+        return to_healthy(jsn)
+    elif 'from healthy' in transformation:
+        return from_healthy(jsn)
     elif 'italian' in transformation: # placeholder, can change cuisine style we want
         return style_cuisine(jsn)
     elif 'double' in transformation:
@@ -15,13 +19,23 @@ def transform(transformation, jsn):
         return None
 
 # make the recipe vegetarian
-def to_from_veg(recipe):
+def to_veg(recipe):
     print(f"Transforming {recipe['title']} to vegetarian...")
     return recipe
 
+# make the recipe non-vegetarian
+def from_veg(recipe):
+    print(f"Transforming {recipe['title']} from vegetarian...")
+    return recipe
+
 # make the recipe healthy
-def to_from_healthy(recipe):
+def to_healthy(recipe):
     print(f"Transforming {recipe['title']} to healthy...")
+    return recipe
+
+# make the recipe unhealthy
+def from_healthy(recipe):
+    print(f"Transforming {recipe['title']} from healthy...")
     return recipe
 
 # make the recipe italian (or something else)
