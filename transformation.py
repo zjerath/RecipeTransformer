@@ -14,6 +14,8 @@ def transform(transformation, jsn):
         return double_or_half(2, jsn)
     elif 'half' in transformation:
         return double_or_half(0.5, jsn)
+    elif 'faster' in transformation:
+        return faster(jsn)
     else:
         print('Invalid transformation request.')
         return None
@@ -55,4 +57,9 @@ def double_or_half(factor, recipe):
         for ingredient in recipe['ingredients']:
             if ingredient['quantity']:
                 ingredient['quantity'] = int(ingredient['quantity']) / 2
+    return recipe
+
+# make the recipe faster
+def faster(recipe)
+    print(f"Speeding up Recipe for {recipe['title']}...")
     return recipe
