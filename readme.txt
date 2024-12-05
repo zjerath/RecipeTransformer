@@ -16,7 +16,7 @@ Getting Started:
 4. Find a recipe and run main.py.
 
 Example Inputs for Transformation:
-1. Vegetarian - "Convert the recipe to vegetarian."
-2. Healthy - "Make the recipe more healthy."
+1. Vegetarian - To: "Transform the recipe to vegetarian." From: "Transform the recipe from vegetarian."
+2. Healthy - To: "Transform the recipe to healthy." From: "Transform the recipe from healthy."
 3. Style of cuisine - "Transform the recipe to Italian cuisine."
 4. Double or half - "Double the recipe size." or "Reduce the amount by half."
