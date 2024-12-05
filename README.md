@@ -1,6 +1,6 @@
 # Project 3 CS 337: RecipeTransformer
 
-## GitHub Repo: https://github.com/zjerath/RecipeTransformer
+GitHub Repo: https://github.com/zjerath/RecipeTransformer
 
 ## File Structure:
 - main.py: script used to run our program locally.
