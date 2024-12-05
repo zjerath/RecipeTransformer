@@ -20,3 +20,4 @@ Example Inputs for Transformation:
 2. Healthy - To: "Transform the recipe to healthy." From: "Transform the recipe from healthy."
 3. Style of cuisine - "Transform the recipe to Italian cuisine."
 4. Double or half - "Double the recipe size." or "Reduce the amount by half."
+5. Sped up - "Make the recipe faster."
