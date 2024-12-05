@@ -1,3 +1,5 @@
+import re
+
 # parse user input to get transformation
 def transform(transformation, jsn):
     if 'to vegetarian' in transformation:
@@ -51,15 +53,26 @@ def double_or_half(factor, recipe):
         print(f"Doubling amounts for {recipe['title']}...")
         for ingredient in recipe['ingredients']:
             if ingredient['quantity']:
-                ingredient['quantity'] = int(ingredient['quantity']) * 2
+                if ingredient['quantity'] not in ['to taste', 'or to taste']:
+                    ingredient['quantity'] = float(ingredient['quantity']) * 2
     else:
         print(f"Halving amounts for {recipe['title']}...")
         for ingredient in recipe['ingredients']:
             if ingredient['quantity']:
-                ingredient['quantity'] = int(ingredient['quantity']) / 2
+                if ingredient['quantity'] not in ['to taste', 'or to taste']:
+                    ingredient['quantity'] = float(ingredient['quantity']) / 2
+    for i, text in enumerate(recipe['raw_ingredients']):
+        ing = recipe['ingredients'][i]
+        match = re.match(r"(\d+/\d+|\d+\.\d+|\d+)", text)
+        if match:
+            original_quantity = float(eval(match.group(1)))
+            if factor == 2 and ing['quantity'] == original_quantity * 2:
+                recipe['raw_ingredients'][i] = text.replace(match.group(1), str(ing['quantity']), 1)
+            elif factor == 0.5 and ing['quantity'] == original_quantity / 2:
+                recipe['raw_ingredients'][i] = text.replace(match.group(1), str(ing['quantity']), 1)
     return recipe
 
 # make the recipe faster
-def faster(recipe)
+def faster(recipe):
     print(f"Speeding up Recipe for {recipe['title']}...")
     return recipe
