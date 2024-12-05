@@ -6,7 +6,7 @@ File Structure:
 - main.py: script used to run our program locally.
 - parse.py: logic for recipe retrieval and parsing into appropriate data structure defined in representation.py.
 - representation.py: defines the data structure where we store the parsed information about the recipe.
-- transformation.py: handles transformation logic for vegetarian, healthy, style of cuisine, and amount changes.
+- transformation.py: handles transformation logic for vegetarian, healthy, style of cuisine, amount, and speed changes.
 - requirements.txt: contains dependencies required to set up an environment to run our code.
 
 Getting Started:
