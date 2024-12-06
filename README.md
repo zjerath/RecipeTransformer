@@ -8,6 +8,7 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 - representation.py: defines the data structure where we store the parsed information about the recipe.
 - transformation.py: handles transformation logic for vegetarian, healthy, style of cuisine, amount, and speed changes.
 - requirements.txt: contains dependencies required to set up an environment to run our code.
+- output.txt: contains output displaying transformation, original recipe, and transformed recipe after running main.
 
 ## Getting Started:
 1. Clone the repository.
