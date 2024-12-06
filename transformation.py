@@ -60,6 +60,6 @@ def double_or_half(factor, recipe):
     return recipe
 
 # make the recipe faster
-def faster(recipe)
+def faster(recipe):
     print(f"Speeding up Recipe for {recipe['title']}...")
     return recipe
