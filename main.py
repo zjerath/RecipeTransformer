@@ -38,9 +38,10 @@ def main():
                 file.write(f"{num}. {step}\n")
             file.write("\n\nTransformed Recipe:\n")
             file.write("\nIngredients:\n")
-            # write transformed ingredients here
+            file.write("\n".join(transformed['raw_ingredients']) + "\n")
             file.write("\nSteps:\n")
-            # write transformed steps here
+            for num, step in enumerate(transformed['raw_steps'], start=1):
+                file.write(f"{num}. {step}\n")
         print("Transformation saved to output.txt.")
     except Exception as e:
         print(f"An error occurred: {e}")
