@@ -32,8 +32,8 @@
         "skillet"
     ],
     "methods": [
-        "cook",
-        "preheat"
+        "preheat",
+        "cook"
     ],
     "raw_steps": [
         "Preheat a nonstick skillet over medium heat. Generously butter one side of a slice of bread. Place bread butter-side down in the hot skillet; add 1 slice of cheese. Butter a second slice of bread on one side and place butter-side up on top of cheese.",

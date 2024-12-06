@@ -32,8 +32,8 @@
         "padella"
     ],
     "methods": [
-        "cook",
-        "preheat"
+        "preheat",
+        "cook"
     ],
     "raw_steps": [
         "Preheat a nonstick padella over medium heat. Generously olive oil one side of a slice of bread. Place bread olive oil-side down in the hot padella; add 1 slice of cheese. Butter a second slice of bread on one side and place olive oil-side up on top of cheese.",

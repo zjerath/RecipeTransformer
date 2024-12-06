@@ -1,3 +1,5 @@
+from italian_transform import transform_recipe_to_italian
+
 # parse user input to get transformation
 def transform(transformation, jsn):
     if 'to vegetarian' in transformation:
@@ -9,7 +11,7 @@ def transform(transformation, jsn):
     elif 'from healthy' in transformation:
         return from_healthy(jsn)
     elif 'italian' in transformation: # placeholder, can change cuisine style we want
-        return style_cuisine(jsn)
+        return to_italian(jsn)
     elif 'double' in transformation:
         return double_or_half(2, jsn)
     elif 'half' in transformation:
@@ -41,10 +43,11 @@ def from_healthy(recipe):
     return recipe
 
 # make the recipe italian (or something else)
-def style_cuisine(recipe):
+def to_italian(recipe):
     print(f"Transforming {recipe['title']} to Italian...")
-    return recipe
-
+    # assumes recipe is in JSON format
+    return transform_recipe_to_italian(recipe)
+    
 # increase or reduce the recipe size
 def double_or_half(factor, recipe):
     if factor == 2:

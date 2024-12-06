@@ -20,7 +20,7 @@ ingredient_mapping = {
 # Tool substitution mapping for Italian cuisine
 tool_mapping = {
     "wok": "saute pan",
-    # "deep fryer": "large skillet",
+    "deep fryer": "large padella",
     "griddle": "pizza stone",
     "skillet": "padella"
 }
@@ -56,7 +56,7 @@ def replace_items(strings, mappings):
 
 def transform_recipe_to_italian(recipe):
     """
-    Transforms a parsed recipe representation into an Italian-style recipe.
+    Transforms a parsed JSON recipe representation into an Italian-style recipe.
     """
     transformed_recipe = recipe.copy()
 
