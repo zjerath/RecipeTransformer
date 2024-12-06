@@ -15,9 +15,25 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 3. Install the dependencies with pip install -r requirements.txt.
 4. Find a recipe and run main.py.
 
-## Example Inputs for Transformation:
-1. Vegetarian - To: "Transform the recipe to vegetarian." From: "Transform the recipe from vegetarian."
-2. Healthy - To: "Transform the recipe to healthy." From: "Transform the recipe from healthy."
-3. Style of cuisine - "Transform the recipe to Italian cuisine."
-4. Double or half - "Double the recipe size." or "Reduce the amount by half."
-5. Sped up - "Make the recipe faster."
+## Example Inputs and Recipes for Transformation:
+1. Vegetarian 
+   - To: "Transform the recipe to vegetarian." From: "Transform the recipe from vegetarian."
+   - Recipes:
+     - To vegetarian:
+     - From vegetarian:
+2. Healthy 
+   - To: "Transform the recipe to healthy." From: "Transform the recipe from healthy."
+   - Recipes:
+     - To healthy: https://www.allrecipes.com/recipe/220895/old-charleston-style-shrimp-and-grits/
+     - From healthy: https://www.allrecipes.com/recipe/272849/healthy-chicken-salad/
+3. Style of cuisine 
+   - "Transform the recipe to Italian cuisine."
+   - Recipes:
+4. Double or half 
+   - "Double the recipe size." or "Reduce the amount by half."
+   - Recipes:
+     - https://www.allrecipes.com/recipe/218091/classic-and-simple-meat-lasagna/
+     - https://www.allrecipes.com/recipe/232227/million-dollar-spaghetti/
+5. Sped up 
+   - "Make the recipe faster."
+   - Recipes:
