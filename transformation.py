@@ -162,4 +162,4 @@ def double_or_half(factor, recipe):
 # make the recipe faster
 def faster(recipe):
     print(f"Speeding up Recipe for {recipe['title']}...")
-    transform_recipe_faster(recipe)
+    return transform_recipe_faster(recipe)
