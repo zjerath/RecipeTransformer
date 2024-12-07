@@ -149,14 +149,19 @@ ingredient_mapping = {
 
 # Ingredient substitution mapping for vegetarian to non-vegetarian
 inv_ingredient_mapping = {
+    "vegetarian ": "",
+    "vegan ": "",
+    "Beyond Meat®": "",
+    
     # Plant-based Meats
-    "beyond beef": "ground beef",
+    "Beyond beef": "ground beef",
     "impossible meat": "ground beef",
-    "beyond sausage": "sausage",
-    "beyond meatballs": "meatballs",
-    "beyond burger": "hamburger",
-    "beyond breakfast sausage": "breakfast sausage",
-    "beyond italian sausage": "italian sausage",
+    "Impossible ": "",
+    "Beyond sausage": "sausage",
+    "Beyond meatballs": "meatballs",
+    "Beyond burger": "hamburger",
+    "Beyond breakfast sausage": "breakfast sausage",
+    "Beyond italian sausage": "italian sausage",
     "tofurky": "turkey",
     "seitan": "chicken",
     "tempeh bacon": "bacon",

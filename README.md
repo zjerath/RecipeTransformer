@@ -20,8 +20,8 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 1. Vegetarian 
    - To: "Transform the recipe to vegetarian." From: "Transform the recipe from vegetarian."
    - Recipes:
-     - To vegetarian:
-     - From vegetarian:
+     - To vegetarian: https://www.allrecipes.com/recipe/246481/slow-cooked-red-braised-pork-belly/
+     - From vegetarian: https://www.allrecipes.com/recipe/277953/air-fryer-beyond-meat-brats-onions-and-peppers/
 2. Healthy 
    - To: "Transform the recipe to healthy." From: "Transform the recipe from healthy."
    - Recipes:
@@ -38,3 +38,5 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 5. Sped up 
    - "Make the recipe faster."
    - Recipes:
+     - https://www.allrecipes.com/recipe/21766/roasted-pork-loin/
+     - https://www.allrecipes.com/recipe/246481/slow-cooked-red-braised-pork-belly/
