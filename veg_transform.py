@@ -281,6 +281,10 @@ def transform_recipe_to_veg(recipe):
 
     # Transform raw_steps -> replace ingredients, methods, tools w/ vegetarian equivalents
     transformed_recipe["raw_steps"] = replace_items(recipe["raw_steps"], [ingredient_mapping])
+
+    for i, step in enumerate(transformed_recipe["steps"]):
+        step["text"] = replace_items([step["text"]], [ingredient_mapping])
+        step["ingredients"] = replace_items(step["ingredients"], [ingredient_mapping])
     
     return transformed_recipe
 
@@ -325,8 +329,8 @@ def transform_recipe_from_veg(recipe):
 
     # Transform steps 
     for i, step in enumerate(transformed_recipe["steps"]):
-        step["text"] = replace_items([step["text"]], [ingredient_mapping])
-        step["ingredients"] = replace_items(step["ingredients"], [ingredient_mapping])
+        step["text"] = replace_items([step["text"]], [inv_ingredient_mapping])
+        step["ingredients"] = replace_items(step["ingredients"], [inv_ingredient_mapping])
     
     return transformed_recipe
 
