@@ -62,6 +62,7 @@ ingredient_mapping = {
     "goat": "seitan",
     "duck": "seitan duck",
     "rabbit": "king oyster mushrooms",
+    "meat": "vegan meat",
     
     # Processed Meats
     "sausage": "beyond sausage",
