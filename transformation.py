@@ -13,7 +13,7 @@ def transform(transformation, jsn):
         return to_healthy(jsn)
     elif 'from healthy' in transformation:
         return from_healthy(jsn)
-    elif 'italian' in transformation: # placeholder, can change cuisine style we want
+    elif 'italian' in transformation:
         return to_italian(jsn)
     elif 'double' in transformation:
         return double_or_half(2, jsn)
@@ -128,7 +128,7 @@ def from_healthy(recipe):
         recipe['raw_steps'][i] = step
     return recipe
 
-# make the recipe italian (or something else)
+# make the recipe italian
 def to_italian(recipe):
     print(f"Transforming {recipe['title']} to Italian...")
     # assumes recipe is in JSON format
