@@ -6,7 +6,10 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 - main.py: script used to run our program locally.
 - parse.py: logic for recipe retrieval and parsing into appropriate data structure defined in representation.py.
 - representation.py: defines the data structure where we store the parsed information about the recipe.
-- transformation.py: handles transformation logic for vegetarian, healthy, style of cuisine, amount, and speed changes.
+- transformation.py: handles transformation logic for healthy and amount changes.
+- veg_transform.py: handles transformation logic for vegetarian changes.
+- italian_transform.py: handles transformation logic for style of cuisine changes.
+- speed_transform.py: handles transformation logic for speed changes.
 - requirements.txt: contains dependencies required to set up an environment to run our code.
 - output.txt: contains output displaying transformation, original recipe, and transformed recipe after running main.
 

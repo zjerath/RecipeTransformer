@@ -6,9 +6,9 @@ import re
 # parse user input to get transformation
 def transform(transformation, jsn):
     if 'to vegetarian' in transformation:
-        return transform_recipe_to_veg(jsn)
+        return to_veg(jsn)
     elif 'from vegetarian' in transformation:
-        return transform_recipe_from_veg(jsn)
+        return from_veg(jsn)
     elif 'to healthy' in transformation:
         return to_healthy(jsn)
     elif 'from healthy' in transformation:
@@ -20,7 +20,7 @@ def transform(transformation, jsn):
     elif 'half' in transformation:
         return double_or_half(0.5, jsn)
     elif 'faster' in transformation or 'speed' in transformation:
-        return transform_recipe_faster(jsn)
+        return faster(jsn)
     else:
         print('Invalid transformation request.')
         return None
@@ -28,12 +28,12 @@ def transform(transformation, jsn):
 # make the recipe vegetarian
 def to_veg(recipe):
     print(f"Transforming {recipe['title']} to vegetarian...")
-    return recipe
+    return transform_recipe_to_veg(recipe)
 
 # make the recipe non-vegetarian
 def from_veg(recipe):
     print(f"Transforming {recipe['title']} from vegetarian...")
-    return recipe
+    return transform_recipe_from_veg(recipe)
 
 # make the recipe healthy
 def to_healthy(recipe):
@@ -162,4 +162,4 @@ def double_or_half(factor, recipe):
 # make the recipe faster
 def faster(recipe):
     print(f"Speeding up Recipe for {recipe['title']}...")
-    return recipe
+    transform_recipe_faster(recipe)
