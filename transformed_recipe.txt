@@ -1,51 +1,99 @@
 {
-    "title": "Grilled Cheese Sandwich",
+    "title": "Roasted Pork Loin",
     "raw_ingredients": [
-        "4 slices x",
-        "3 tablespoons olive oil, divided",
-        "2 slices Cheddar cheese"
+        "3 cloves garlic, minced",
+        "1 tablespoon dried rosemary",
+        "salt and pepper to taste",
+        "2 pounds boneless pork tenderloin roast",
+        "0.25 cup olive oil",
+        "0.5 cup white wine"
     ],
     "ingredients": [
         {
-            "name": "x",
-            "quantity": "4",
-            "measurement": "slices",
+            "name": "garlic,",
+            "quantity": "3",
+            "measurement": "cloves",
+            "descriptor": null,
+            "preparation": "minced"
+        },
+        {
+            "name": "rosemary",
+            "quantity": "1",
+            "measurement": "tablespoon",
+            "descriptor": null,
+            "preparation": "dried"
+        },
+        {
+            "name": "salt and pepper",
+            "quantity": "to taste",
+            "measurement": null,
             "descriptor": null,
             "preparation": null
         },
         {
-            "name": "y",
-            "quantity": "3",
-            "measurement": "tablespoons",
-            "descriptor": null,
-            "preparation": "divided"
+            "name": "pork tenderloin roast",
+            "quantity": "2",
+            "measurement": "pounds",
+            "descriptor": "boneless",
+            "preparation": null
         },
         {
-            "name": "z",
-            "quantity": "2",
-            "measurement": "slices",
+            "name": "olive oil",
+            "quantity": "0.25",
+            "measurement": "cup",
+            "descriptor": null,
+            "preparation": null
+        },
+        {
+            "name": "white wine",
+            "quantity": "0.5",
+            "measurement": "cup",
             "descriptor": null,
             "preparation": null
         }
     ],
     "tools": [
-        "padella"
+        "air fryer",
+        "mortar",
+        "pestle"
     ],
     "methods": [
+        "simmer",
         "preheat",
-        "cook"
+        "stir",
+        "cook",
+        "air fry"
     ],
     "raw_steps": [
-        "Preheat a nonstick padella over medium heat. Generously olive oil one side of a slice of bread. Place bread olive oil-side down in the hot padella; add 1 slice of cheese. Butter a second slice of bread on one side and place olive oil-side up on top of cheese.",
-        "Cook until lightly browned on one side; flip over and continue cooking until cheese is melted. Repeat with remaining 2 slices of bread, olive oil, and slice of cheese."
+        "Gather all ingredients. Set air fryer to 350 degrees F (175 degrees C).",
+        "Crush garlic with rosemary, salt, and pepper in a mortar and pestle to make a paste.",
+        "Pierce meat with a sharp knife in several places and press garlic paste into the openings. Rub pork tenderloin with the remaining garlic mixture and olive oil. Set into an air fryer-safe pan.",
+        "Place pork tenderloin into the  air fryer, turning and basting with pan liquids every 15 minutes. Cook until the pork is no longer pink in the center, 45 minutes to 1 hours. An instant-read thermometer inserted into the center should read 145 degrees F (63 degrees C). Remove air fry to a platter and keep warm.",
+        "Place pan onto the stove over medium-high heat and pour wine into it. Heat wine and stir to loosen browned bits from the bottom of the pan. Simmer for 3 to 5 minutes.",
+        "Slice pork tenderloin and serve with pan juices."
     ],
     "steps": [
         {
             "step_number": 1,
-            "text": "Preheat a nonstick skillet over medium heat.",
+            "text": [
+                "Gather all ingredients."
+            ],
+            "ingredients": [],
+            "tools": [],
+            "methods": [],
+            "time": {
+                "duration": null,
+                "condition": null
+            }
+        },
+        {
+            "step_number": 2,
+            "text": [
+                "Set air fryer to 350 degrees F (175 degrees C)."
+            ],
             "ingredients": [],
             "tools": [
-                "skillet"
+                "air fryer"
             ],
             "methods": [
                 "preheat"
@@ -56,27 +104,17 @@
             }
         },
         {
-            "step_number": 2,
-            "text": "Generously butter one side of a slice of bread.",
-            "ingredients": [
-                "butter,"
-            ],
-            "tools": [],
-            "methods": [],
-            "time": {
-                "duration": null,
-                "condition": null
-            }
-        },
-        {
             "step_number": 3,
-            "text": "Place bread butter-side down in the hot skillet",
+            "text": [
+                "Crush garlic with rosemary, salt, and pepper in a mortar and pestle to make a paste."
+            ],
             "ingredients": [
-                "white bread",
-                "butter,"
+                "rosemary",
+                "garlic,"
             ],
             "tools": [
-                "skillet"
+                "mortar",
+                "pestle"
             ],
             "methods": [],
             "time": {
@@ -86,8 +124,12 @@
         },
         {
             "step_number": 4,
-            "text": "add 1 slice of cheese.",
-            "ingredients": [],
+            "text": [
+                "Pierce meat with a sharp knife in several places and press garlic paste into the openings."
+            ],
+            "ingredients": [
+                "garlic,"
+            ],
             "tools": [],
             "methods": [],
             "time": {
@@ -97,10 +139,12 @@
         },
         {
             "step_number": 5,
-            "text": "Butter a second slice of bread on one side and place butter-side up on top of cheese.",
+            "text": [
+                "Rub pork tenderloin with the remaining garlic mixture and olive oil."
+            ],
             "ingredients": [
-                "white bread",
-                "butter,"
+                "olive oil",
+                "garlic,"
             ],
             "tools": [],
             "methods": [],
@@ -111,36 +155,126 @@
         },
         {
             "step_number": 6,
-            "text": "Cook until lightly browned on one side",
+            "text": [
+                "Set into an air fryer-safe pan."
+            ],
+            "ingredients": [],
+            "tools": [
+                "air fryer"
+            ],
+            "methods": [],
+            "time": {
+                "duration": null,
+                "condition": null
+            }
+        },
+        {
+            "step_number": 7,
+            "text": [
+                "Place pork tenderloin into the  air fryer, turning and basting with pan liquids every 15 minutes."
+            ],
+            "ingredients": [],
+            "tools": [
+                "air fryer"
+            ],
+            "methods": [],
+            "time": {
+                "duration": "15 minutes",
+                "condition": null
+            }
+        },
+        {
+            "step_number": 8,
+            "text": [
+                "Cook until the pork is no longer pink in the center, 45 minutes to 1 hours."
+            ],
             "ingredients": [],
             "tools": [],
             "methods": [
                 "cook"
             ],
             "time": {
-                "duration": null,
-                "condition": "until lightly browned on one side"
+                "duration": "1 hours",
+                "condition": "until the pork is no longer pink in the center"
             }
         },
         {
-            "step_number": 7,
-            "text": "flip over and continue cooking until cheese is melted.",
-            "ingredients": [
-                "Cheddar cheese"
+            "step_number": 9,
+            "text": [
+                "An instant-read thermometer inserted into the center should read 145 degrees F (63 degrees C)."
             ],
+            "ingredients": [],
             "tools": [],
             "methods": [],
             "time": {
                 "duration": null,
-                "condition": "until cheese is melted"
+                "condition": null
             }
         },
         {
-            "step_number": 8,
-            "text": "Repeat with remaining 2 slices of bread, butter, and slice of cheese.",
-            "ingredients": [
-                "butter,"
+            "step_number": 10,
+            "text": [
+                "Remove air fry to a platter and keep warm."
             ],
+            "ingredients": [],
+            "tools": [],
+            "methods": [
+                "air fry"
+            ],
+            "time": {
+                "duration": null,
+                "condition": null
+            }
+        },
+        {
+            "step_number": 11,
+            "text": [
+                "Place pan onto the stove over medium-high heat and pour wine into it."
+            ],
+            "ingredients": [],
+            "tools": [],
+            "methods": [],
+            "time": {
+                "duration": null,
+                "condition": null
+            }
+        },
+        {
+            "step_number": 12,
+            "text": [
+                "Heat wine and stir to loosen browned bits from the bottom of the pan."
+            ],
+            "ingredients": [],
+            "tools": [],
+            "methods": [
+                "stir"
+            ],
+            "time": {
+                "duration": null,
+                "condition": null
+            }
+        },
+        {
+            "step_number": 13,
+            "text": [
+                "Simmer for 3 to 5 minutes."
+            ],
+            "ingredients": [],
+            "tools": [],
+            "methods": [
+                "simmer"
+            ],
+            "time": {
+                "duration": "5 minutes",
+                "condition": null
+            }
+        },
+        {
+            "step_number": 14,
+            "text": [
+                "Slice pork tenderloin and serve with pan juices."
+            ],
+            "ingredients": [],
             "tools": [],
             "methods": [],
             "time": {

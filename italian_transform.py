@@ -111,27 +111,33 @@ def transform_recipe_to_italian(recipe):
     transformed_recipe["raw_ingredients"] = replace_items(recipe["raw_ingredients"], [ingredient_mapping])
 
     # Transform ingredients
-    # TO DO: adjust quantity, measurement, etc. based on substituted ingredient?
-    transformed_recipe["ingredients"] = [
-        {
-            "name": ingredient_mapping.get(ingredient["name"].lower(), ingredient["name"]), # keep the current ingredient name if no substitution exists
+    transformed_ingredients = []
+    for ingredient in recipe["ingredients"]:
+        # Clean the ingredient name by removing punctuation and whitespace
+        clean_name = ingredient["name"].lower().strip().rstrip(',.')
+        
+        transformed_ingredients.append({
+            "name": ingredient_mapping.get(clean_name, ingredient["name"]), # keep the current ingredient name if no substitution exists
             "quantity": ingredient["quantity"],
             "measurement": ingredient["measurement"],
             "descriptor": ingredient["descriptor"],
             "preparation": ingredient["preparation"]
-        }
-        for ingredient in recipe["ingredients"]
-    ]
+        })
+    transformed_recipe["ingredients"] = transformed_ingredients
 
     # Transform tools
-    transformed_recipe["tools"] = [
-        tool_mapping.get(tool, tool) for tool in recipe["tools"]
-    ]
+    transformed_tools = []
+    for tool in recipe["tools"]:
+        clean_tool = tool.lower().strip().rstrip(',.')
+        transformed_tools.append(tool_mapping.get(clean_tool, tool))
+    transformed_recipe["tools"] = transformed_tools
 
     # Transform methods
-    transformed_recipe["methods"] = [
-        method_mapping.get(method, method) for method in recipe["methods"]
-    ]
+    transformed_methods = []
+    for method in recipe["methods"]:
+        clean_method = method.lower().strip().rstrip(',.')
+        transformed_methods.append(method_mapping.get(clean_method, method))
+    transformed_recipe["methods"] = transformed_methods
 
     # Transform raw_steps -> replace ingredients, methods, tools w/ Italian equivalents
     transformed_recipe["raw_steps"] = replace_items(recipe["raw_steps"], [ingredient_mapping, method_mapping, tool_mapping])
