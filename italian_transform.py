@@ -95,6 +95,12 @@ def transform_recipe_to_italian(recipe):
     # Transform raw_steps -> replace ingredients, methods, tools w/ Italian equivalents
     transformed_recipe["raw_steps"] = replace_items(recipe["raw_steps"], [ingredient_mapping, method_mapping, tool_mapping])
     
+    # Transform steps 
+    for i, step in enumerate(transformed_recipe["steps"]):
+        step["text"] = replace_items([step["text"]], [ingredient_mapping, tool_mapping, method_mapping])
+        step["ingredients"] = replace_items(step["ingredients"], [ingredient_mapping])
+        step["tools"] = replace_items(step["tools"], [tool_mapping])
+        step["methods"] = replace_items(step["methods"], [method_mapping])
     return transformed_recipe
 
 def main():
