@@ -1,27 +1,27 @@
 {
     "title": "Grilled Cheese Sandwich",
     "raw_ingredients": [
-        "4 slices x",
-        "3 tablespoons olive oil, divided",
-        "2 slices Cheddar cheese"
+        "4 slices white bread",
+        "3 tablespoons vegan butter, divided",
+        "2 slices Cheddar vegan cheese"
     ],
     "ingredients": [
         {
-            "name": "x",
+            "name": "white bread",
             "quantity": "4",
             "measurement": "slices",
             "descriptor": null,
             "preparation": null
         },
         {
-            "name": "y",
+            "name": "vegan butter",
             "quantity": "3",
             "measurement": "tablespoons",
             "descriptor": null,
             "preparation": "divided"
         },
         {
-            "name": "z",
+            "name": "cheddar vegan cheese",
             "quantity": "2",
             "measurement": "slices",
             "descriptor": null,
@@ -29,15 +29,15 @@
         }
     ],
     "tools": [
-        "padella"
+        "skillet"
     ],
     "methods": [
-        "preheat",
-        "cook"
+        "cook",
+        "preheat"
     ],
     "raw_steps": [
-        "Preheat a nonstick padella over medium heat. Generously olive oil one side of a slice of bread. Place bread olive oil-side down in the hot padella; add 1 slice of cheese. Butter a second slice of bread on one side and place olive oil-side up on top of cheese.",
-        "Cook until lightly browned on one side; flip over and continue cooking until cheese is melted. Repeat with remaining 2 slices of bread, olive oil, and slice of cheese."
+        "Preheat a nonstick skillet over medium heat. Generously vegan butter one side of a slice of bread. Place bread vegan butter-side down in the hot skillet; add 1 slice of vegan cheese. Butter a second slice of bread on one side and place vegan butter-side up on top of vegan cheese.",
+        "Cook until lightly browned on one side; flip over and continue cooking until vegan cheese is melted. Repeat with remaining 2 slices of bread, vegan butter, and slice of vegan cheese."
     ],
     "steps": [
         {
