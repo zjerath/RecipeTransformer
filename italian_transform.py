@@ -1,6 +1,8 @@
 import json
 import re
 from parse import fetch_recipe, extract_json_ld, parse_recipe, recipe_to_json
+from fractions import Fraction
+from collections import defaultdict
 
 # Ingredient substitution mapping for Italian cuisine
 ingredient_mapping = {
@@ -10,6 +12,7 @@ ingredient_mapping = {
     "cheddar cheese": "parmesan cheese",
     "chicken": "prosciutto",
     "ground beef": "Italian sausage",
+    "beef": "Italian sausage",
     "sour cream": "mascarpone",
     "potatoes": "gnocchi",
     "corn": "polenta",
@@ -26,7 +29,7 @@ ingredient_mapping = {
     "vinegar": "balsamic vinegar",
     "spinach": "arugula",
     "lettuce": "radicchio",
-    "sausage": "salami or soppressata",
+    # "sausage": "salami or soppressata",
     "shrimp": "scampi",
     "onions": "shallots",
     "cabbage": "savoy cabbage",
@@ -67,10 +70,12 @@ method_mapping = {
 }
 
 
-# mapping common Italian ingredients to associated cooking methods 
-ingredient_to_method_mapping = {
-    "olive oil": ["heat", "drizzle", "roast", "sauté"],
-    "garlic": ["sauté", "prepare sauce", "simmer"],
+
+# Mapping common Italian ingredients to associated cooking methods. 
+# If a recipe step mentions any of these methods, a suggestion will be added to the current recipe step to include the associated ingredient.
+common_ingredient_to_method_mapping = {
+    "olive oil": ["heat", "drizzle", "roast", "saute"],
+    "garlic": ["saute", "prepare sauce", "simmer"],
     "parmesan": ["garnish", "serve", "combine with sauce"],
     "basil": ["garnish", "finish", "simmer"],
     "tomatoes": ["add to sauce", "roast", "blend"],
@@ -79,6 +84,151 @@ ingredient_to_method_mapping = {
     "mozzarella": ["top", "bake"],
 }
 
+# Italian ingredient defaults based on common Italian cooking practices
+# Used for initializing ingredients to append to recipe["ingredients"] list
+common_ingredient_defaults = {
+    "olive oil": {"quantity": "2", "measurement": "tablespoons"},
+    "garlic": {"quantity": "2", "measurement": "cloves"},
+    "parmesan": {"quantity": "1/4", "measurement": "cup"},
+    "basil": {"quantity": "1/4", "measurement": "cup (packed leaves)"},
+    "tomatoes": {"quantity": "3", "measurement": "medium (or whole)"},
+    "wine": {"quantity": "1/2", "measurement": "cup"},
+    "oregano": {"quantity": "1", "measurement": "teaspoon (dried)"},
+    "mozzarella": {"quantity": "8", "measurement": "ounces"}
+}
+
+def aggregate_raw_ingredients(raw_ingredients):
+    """
+    Combines common ingredients in raw_ingredients list to one entry with updated quantity. 
+
+    Ex:
+    raw_ingredients = [
+        "1 egg",
+        "1 tablespoon olive oil",
+        "1 tablespoon olive oil",
+        "1 onion, chopped",
+        "2 tablespoons olive oil"
+    ]
+
+    is converted to 
+
+    raw_ingredients = [
+        "1 egg",
+        "4 tablespoons olive oil",
+        "1 onion, chopped"
+    ]
+    """
+    def parse_raw_ingredient(ingredient):
+        # Regular expression to extract quantity, measurement, and ingredient name
+        pattern = r"(?P<quantity>[\d/]+(?:\.\d+)?|\d+)?\s*(?P<measurement>\b\w+\b)?\s*(?P<name>.+)"
+        match = re.match(pattern, ingredient.strip())
+        if match:
+            quantity = match.group("quantity") or "1"  # Default to 1 if no quantity
+            measurement = match.group("measurement") or ""
+            name = match.group("name").strip(",").lower()
+            return {
+                "name": name,
+                "quantity": quantity,
+                "measurement": measurement
+            }
+        return None
+
+    aggregated = {}
+    
+    for raw in raw_ingredients:
+        parsed = parse_raw_ingredient(raw)
+        if not parsed:
+            continue
+        name = parsed["name"]
+        
+        if name not in aggregated:
+            aggregated[name] = parsed  # Start with the first occurrence
+        else:
+            # Combine quantities if possible
+            current_quantity = aggregated[name]["quantity"]
+            new_quantity = parsed["quantity"]
+            
+            try:
+                # Attempt to parse and add quantities as numbers
+                current_quantity = float(Fraction(current_quantity))
+                new_quantity = float(Fraction(new_quantity))
+                aggregated[name]["quantity"] = str(current_quantity + new_quantity)
+            except ValueError:
+                # Concatenate quantities if they can't be added numerically
+                aggregated[name]["quantity"] += f" + {parsed['quantity']}"
+            
+            # Retain measurement or append if there's a mismatch
+            if aggregated[name]["measurement"] != parsed["measurement"]:
+                aggregated[name]["measurement"] = aggregated[name]["measurement"] or parsed["measurement"]
+    
+    # Combine into readable strings
+    return [
+        f"{info['quantity']} {info['measurement']} {info['name']}".strip()
+        for info in aggregated.values()
+    ]
+
+def aggregate_ingredients(ingredients):
+    """
+    Combines common ingredients in ingredients list to one entry with updated quantity. 
+    
+    Ex:
+    {
+        "name": "olive oil",
+        "quantity": "1",
+        "measurement": "tablespoon",
+        "descriptor": None,
+        "preparation": None
+    },
+    {
+        "name": "olive oil",
+        "quantity": "2",
+        "measurement": "tablespoons",
+        "descriptor": None,
+        "preparation": None
+    },
+
+    is converted to
+    
+    {
+        "name": "olive oil",
+        "quantity": "2",
+        "measurement": "tablespoons",
+        "descriptor": None,
+        "preparation": None
+    }
+    """
+    # Helper to convert string quantities to numeric for addition
+    def parse_quantity(q):
+        try:
+            return float(Fraction(q))
+        except ValueError:
+            return None
+    
+    # Aggregated result
+    aggregated = {}
+    
+    for ingredient in ingredients:
+        name = ingredient["name"].strip().lower()  # Normalize name (strip and lowercase)
+        
+        if name not in aggregated:
+            aggregated[name] = ingredient.copy()  # Start with a copy of the first occurrence
+        else:
+            # Combine quantities if possible
+            current_quantity = parse_quantity(aggregated[name]["quantity"])
+            new_quantity = parse_quantity(ingredient["quantity"])
+            
+            if current_quantity is not None and new_quantity is not None:
+                aggregated[name]["quantity"] = str(current_quantity + new_quantity)
+            else:
+                # If quantities are not summable, default to appending the new one
+                aggregated[name]["quantity"] = aggregated[name]["quantity"] + " + " + ingredient["quantity"]
+            
+            # Merge other fields if they are not already set
+            for key in ["measurement", "descriptor", "preparation"]:
+                if not aggregated[name][key] and ingredient[key]:
+                    aggregated[name][key] = ingredient[key]
+    
+    return list(aggregated.values())
 
 def replace_items(strings, mappings):
     """
@@ -101,11 +251,45 @@ def replace_items(strings, mappings):
         updated_strings.append(string)
     return updated_strings
 
+def suggest_enhancing_ingredients(step, iconic_ingredients, current_ingredients):
+    """
+    Identifies whether any common Italian ingredients could be added to enhance current recipe step.
+    Applied to recipe step AFTER initial ingredient substitution.
+    If step does not have any common Italian ingredients after initial ingredient substitution but mentions associated cooking method(s), 
+    ingredients are suggested as enhancement.
+
+    Args:
+        step (string): Current recipe step.
+        iconic_ingredients (dict): Dictionary mapping iconic ingredients to cooking actions.
+        current_ingredients (list of strings): ingredients included in current recipe step
+    Returns:
+        updated_step (string): Updated step with suggestions for adding missing ingredients.
+        suggestions (list of strings): suggestions for optional ingredients to enhance recipe step.
+    """
+    
+    updated_step = step
+    # Analyze step and suggest iconic ingredients
+    suggestions = []
+    for ingredient, keywords in iconic_ingredients.items():
+        if ingredient in current_ingredients: # if ingredient suggestion is already included in step ingredient list, no need to suggest 
+            continue
+        if any(keyword in step.lower() for keyword in keywords):
+            suggestions.append(ingredient)
+    
+    # Add suggestions to the step
+    if suggestions:
+        updated_step += f" (Consider adding: {', '.join(suggestions)})"
+    
+    return updated_step, suggestions
+
 def transform_recipe_to_italian(recipe):
     """
     Transforms a parsed JSON recipe representation into an Italian-style recipe.
     """
     transformed_recipe = recipe.copy()
+
+    # Transform recipe title
+    transformed_recipe["title"] = "Italian-Style " + recipe["title"]
 
     # Transform raw_ingredients
     transformed_recipe["raw_ingredients"] = replace_items(recipe["raw_ingredients"], [ingredient_mapping])
@@ -139,100 +323,80 @@ def transform_recipe_to_italian(recipe):
         transformed_methods.append(method_mapping.get(clean_method, method))
     transformed_recipe["methods"] = transformed_methods
 
-    # Transform raw_steps -> replace ingredients, methods, tools w/ Italian equivalents
+    # Transform raw_steps: replace ingredients, methods, tools w/ Italian equivalents
     transformed_recipe["raw_steps"] = replace_items(recipe["raw_steps"], [ingredient_mapping, method_mapping, tool_mapping])
 
-    # Apply missing ingredient transform
-
-    
     # Transform steps 
+    additional_optional_ingredients = set() # set of optional ingredient suggestions to append to recipe ingredient list
     for i, step in enumerate(transformed_recipe["steps"]):
-        step["text"] = replace_items([step["text"]], [ingredient_mapping, tool_mapping, method_mapping])
+        step["text"] = replace_items([step["text"]], [ingredient_mapping, tool_mapping, method_mapping])[0]
         step["ingredients"] = replace_items(step["ingredients"], [ingredient_mapping])
         step["tools"] = replace_items(step["tools"], [tool_mapping])
         step["methods"] = replace_items(step["methods"], [method_mapping])
+        
+        # check for optional ingredient enhancements for current step
+        step["text"], step_ingredient_suggestions = suggest_enhancing_ingredients(step["text"], common_ingredient_to_method_mapping, step["ingredients"])
+        
+        # if optional ingredients were suggested, add to ingredients list for the step & overall recipe
+        step["ingredients"].extend(step_ingredient_suggestions)
+        additional_optional_ingredients.update(step_ingredient_suggestions)
+
+    # update recipe raw ingredients and ingredients list if additional ingredients were suggested
+    for optional_ingredient in list(additional_optional_ingredients):
+        raw_ingredient_components = [
+            common_ingredient_defaults[optional_ingredient]["quantity"],
+            common_ingredient_defaults[optional_ingredient]["measurement"],
+            optional_ingredient
+        ]
+        raw_ingredient_to_add = " ".join(raw_ingredient_components)
+        transformed_recipe["raw_ingredients"].append(raw_ingredient_to_add)
+
+        transformed_recipe["ingredients"].append({
+            "name": optional_ingredient,
+            "quantity": common_ingredient_defaults[optional_ingredient]["quantity"],
+            "measurement": common_ingredient_defaults[optional_ingredient]["measurement"],
+            "descriptor": None,
+            "preparation": None
+        })
+    
+    # aggregate common ingredients into single entries with updated quantities
+    transformed_recipe["raw_ingredients"] = aggregate_raw_ingredients(transformed_recipe["raw_ingredients"])
+    transformed_recipe["ingredients"] = aggregate_ingredients(transformed_recipe["ingredients"])
+
     return transformed_recipe
 
-def suggest_missing_ingredients(steps, iconic_ingredients):
-    """
-    Identifies where iconic ingredients could/should be added in recipe steps.
-    Should be applied to recipe AFTER initial ingredient, method, tool substitutions.
-    For any steps with methods that do not have iconic ingredients after initial substitution but have associated cooking action(s), 
-    suggest to add those ingredients.
-
-    Args:
-        steps (list): List of recipe steps (strings).
-        iconic_ingredients (dict): Dictionary mapping iconic ingredients to cooking actions.
-    Returns:
-        list: Updated steps with suggestions for adding missing ingredients.
-    """
-    updated_steps = []
-    for step in steps:
-        # Analyze step and suggest iconic ingredients
-        suggestions = []
-        for ingredient, keywords in iconic_ingredients.items():
-            if any(keyword in step.lower() for keyword in keywords):
-                suggestions.append(ingredient)
-        
-        # Add suggestions to the step
-        if suggestions:
-            updated_steps.append(f"{step} (Consider adding: {', '.join(suggestions)})")
-        else:
-            updated_steps.append(step)
-    return updated_steps
 
 def main():
 
-    # raw_steps = [
-    #     "Preheat a nonstick skillet over medium heat. Generously butter one side of a slice of bread. Place bread butter-side down in the hot skillet; add 1 slice of cheese. Butter a second slice of bread on one side and place butter-side up on top of cheese.",
-    #     "Cook until lightly browned on one side; flip over and continue cooking until cheese is melted. Repeat with remaining 2 slices of bread, butter, and slice of cheese."
-    # ]
+    grilled_cheese_url = "https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/"
+    beef_burger_url = "https://www.allrecipes.com/recipe/258947/mushroom-beef-burgers/"
+    chicken_fried_rice_url = "https://www.allrecipes.com/recipe/16954/chinese-chicken-fried-rice-ii/"
 
-    # updated_steps = replace_items(raw_steps, tool_mapping)
-    # print(updated_steps)
-    
-    # url = "https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/"
-
-    # try:
-    #     soup = fetch_recipe(url)
-    #     json_data = extract_json_ld(soup)
-    #     if not json_data:
-    #         print("Could not find a valid recipe in the provided URL.")
-    #         return
-    #     # parse recipe
-    #     recipe = parse_recipe(json_data)
-    #     original_recipe = recipe_to_json(recipe)
+    try:
+        soup = fetch_recipe(beef_burger_url)
+        json_data = extract_json_ld(soup)
+        if not json_data:
+            print("Could not find a valid recipe in the provided URL.")
+            return
+        # parse recipe
+        recipe = parse_recipe(json_data)
+        original_recipe = recipe_to_json(recipe)
         
-    #     # Transform the recipe
-    #     italian_recipe = transform_recipe_to_italian(original_recipe)
+        # print original recipe
+        original_file_path = "beef_burger_original.txt"
+        with open(original_file_path, "w") as file:
+            json.dump(original_recipe, file, indent=4)
 
-    #     original_file_path = "original_recipe.txt"
-    #     with open(original_file_path, "w") as file:
-    #         json.dump(original_recipe, file, indent=4)
+        # Transform the recipe
+        italian_recipe = transform_recipe_to_italian(original_recipe)
 
-    #     transformed_file_path = "transformed_recipe.txt"
-    #     with open(transformed_file_path, "w") as file:
-    #         json.dump(italian_recipe, file, indent=4)
+        # print transformed recipe
+        transformed_file_path = "beef_burger_transform.txt"
+        with open(transformed_file_path, "w") as file:
+            json.dump(italian_recipe, file, indent=4)
 
-    # except Exception as e:
-    #     print(f"An error occurred: {e}")
-    
-    # Example recipe steps
-    recipe_steps = [
-        "Heat a pan over medium heat.",
-        "Fry the chicken until golden brown.",
-        "Add tomatoes and cook for 10 minutes.",
-        "Serve the pasta with the sauce.",
-    ]
-
-    # Apply the function
-    updated_recipe = suggest_missing_ingredients(recipe_steps, ingredient_to_method_mapping)
-
-    # Display the updated recipe
-    print("Original Steps:")
-    print("\n".join(recipe_steps))
-    print("\nUpdated Steps with Suggestions:")
-    print("\n".join(updated_recipe))
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 
