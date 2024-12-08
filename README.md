@@ -8,7 +8,7 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 - representation.py: defines the data structure where we store the parsed information about the recipe.
 - transformation.py: handles transformation logic for healthy and amount changes.
 - veg_transform.py: handles transformation logic for vegetarian changes.
-- italian_transform.py: handles transformation logic for transforming recipe to Italian style cuisine. Additional Italian ingredients suggested as optional enhancements in parsed representation.
+- italian_transform.py: handles transformation logic for transforming recipe to Italian style cuisine.
 - speed_transform.py: handles transformation logic for speed changes.
 - requirements.txt: contains dependencies required to set up an environment to run our code.
 - output.txt: contains output displaying transformation, original recipe, and transformed recipe after running main.
@@ -30,11 +30,12 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
    - Recipes:
      - To healthy: https://www.allrecipes.com/recipe/220895/old-charleston-style-shrimp-and-grits/
      - From healthy: https://www.allrecipes.com/recipe/272849/healthy-chicken-salad/
-3. Style of cuisine 
+3. Style of cuisine (Italian)
    - "Transform the recipe to Italian cuisine."
    - Recipes:
       - https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/
       - https://www.allrecipes.com/recipe/258947/mushroom-beef-burgers/
+   - Note: some popular Italian ingredients are associated with certain cooking methods. In the parsed representation, additional Italian ingredients are suggested as optional enhancements for a step, if that step contains any cooking methods that are typically associated with those ingredients.
 4. Double or half 
    - "Double the recipe size." or "Reduce the amount by half."
    - Recipes:

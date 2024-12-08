@@ -2,7 +2,6 @@ import json
 import re
 from parse import fetch_recipe, extract_json_ld, parse_recipe, recipe_to_json
 from fractions import Fraction
-from collections import defaultdict
 
 # Ingredient substitution mapping for Italian cuisine
 ingredient_mapping = {
@@ -325,7 +324,7 @@ def transform_recipe_to_italian(recipe):
 
     # Transform raw_steps: replace ingredients, methods, tools w/ Italian equivalents
     transformed_recipe["raw_steps"] = replace_items(recipe["raw_steps"], [ingredient_mapping, method_mapping, tool_mapping])
-
+    
     # Transform steps 
     additional_optional_ingredients = set() # set of optional ingredient suggestions to append to recipe ingredient list
     for i, step in enumerate(transformed_recipe["steps"]):
@@ -364,42 +363,3 @@ def transform_recipe_to_italian(recipe):
     transformed_recipe["ingredients"] = aggregate_ingredients(transformed_recipe["ingredients"])
 
     return transformed_recipe
-
-
-def main():
-
-    grilled_cheese_url = "https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/"
-    beef_burger_url = "https://www.allrecipes.com/recipe/258947/mushroom-beef-burgers/"
-    chicken_fried_rice_url = "https://www.allrecipes.com/recipe/16954/chinese-chicken-fried-rice-ii/"
-
-    try:
-        soup = fetch_recipe(beef_burger_url)
-        json_data = extract_json_ld(soup)
-        if not json_data:
-            print("Could not find a valid recipe in the provided URL.")
-            return
-        # parse recipe
-        recipe = parse_recipe(json_data)
-        original_recipe = recipe_to_json(recipe)
-        
-        # print original recipe
-        original_file_path = "beef_burger_original.txt"
-        with open(original_file_path, "w") as file:
-            json.dump(original_recipe, file, indent=4)
-
-        # Transform the recipe
-        italian_recipe = transform_recipe_to_italian(original_recipe)
-
-        # print transformed recipe
-        transformed_file_path = "beef_burger_transform.txt"
-        with open(transformed_file_path, "w") as file:
-            json.dump(italian_recipe, file, indent=4)
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-
-
-if __name__ == "__main__":
-    main()
-
