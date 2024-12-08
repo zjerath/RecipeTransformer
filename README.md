@@ -35,7 +35,7 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
    - Recipes:
       - https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/
       - https://www.allrecipes.com/recipe/258947/mushroom-beef-burgers/
-   - Note: some popular Italian ingredients are associated with certain cooking methods. In the parsed representation, additional Italian ingredients are suggested as optional enhancements for a step, if that step contains any cooking methods that are typically associated with those ingredients.
+   - Note: Some popular Italian ingredients are associated with certain cooking methods. In the parsed representation, additional Italian ingredients are suggested as optional enhancements for a step, if that step contains any cooking methods that are typically associated with those ingredients.
 4. Double or half 
    - "Double the recipe size." or "Reduce the amount by half."
    - Recipes:
