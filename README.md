@@ -8,7 +8,7 @@ GitHub Repo: https://github.com/zjerath/RecipeTransformer
 - representation.py: defines the data structure where we store the parsed information about the recipe.
 - transformation.py: handles transformation logic for healthy and amount changes.
 - veg_transform.py: handles transformation logic for vegetarian changes.
-- italian_transform.py: handles transformation logic for transforming recipe to Italian style cuisine.
+- italian_transform.py: handles transformation logic for transforming recipe to Italian style cuisine. Additional Italian ingredients suggested as optional enhancements in parsed representation.
 - speed_transform.py: handles transformation logic for speed changes.
 - requirements.txt: contains dependencies required to set up an environment to run our code.
 - output.txt: contains output displaying transformation, original recipe, and transformed recipe after running main.
